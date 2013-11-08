@@ -1,0 +1,50 @@
+﻿<Window x:Class="MultiThreadAppTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:iav="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:iac="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:lv="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:vm="clr-namespace:MultiThreadAppTest"
+        Title="ClipboardWatcher" Height="354" Width="525" WindowStyle="ThreeDBorderWindow">
+    <iav:Interaction.Triggers>
+        <iav:EventTrigger EventName="Closed">
+            <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="Shutdown" />
+        </iav:EventTrigger>
+    </iav:Interaction.Triggers>
+    <Window.Resources>
+        <vm:MainViewModel x:Key="MVM"/>
+    </Window.Resources>
+    <Grid>
+        <ListBox Name="DataList" Margin="0,26,0,29" DataContext="{DynamicResource MVM}" ItemsSource="{Binding Path=ListSource}"/>
+        <Button Content="Watch Start" Name="buttonStart" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="175">
+            <iav:Interaction.Triggers>
+                <iav:EventTrigger EventName="Click">
+                    <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="ThreadStart" />
+                </iav:EventTrigger>
+            </iav:Interaction.Triggers>
+        </Button>
+        <Button Content="Watch Stop" Height="23" Name="buttonStop" VerticalAlignment="Bottom" Margin="181,0,163,0">
+            <iav:Interaction.Triggers>
+                <iav:EventTrigger EventName="Click">
+                    <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="ThreadStop" />
+                </iav:EventTrigger>
+            </iav:Interaction.Triggers>
+        </Button>
+        <Button Content="Close" Name="buttonEnd" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="157" >
+            <iav:Interaction.Triggers>
+                <iav:EventTrigger EventName="Click">
+                    <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="Shutdown" />
+                </iav:EventTrigger>
+            </iav:Interaction.Triggers>
+        </Button>
+        <Menu Height="23" Name="MainMenu" VerticalAlignment="Top" >
+            <MenuItem Name="ItemSave" Header="Save" Height="20" FontSize="14">
+                <iav:Interaction.Triggers>
+                    <iav:EventTrigger EventName="Click">
+                        <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="Save" />
+                    </iav:EventTrigger>
+                </iav:Interaction.Triggers>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
