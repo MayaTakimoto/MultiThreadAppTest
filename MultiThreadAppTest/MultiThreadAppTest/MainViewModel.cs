@@ -33,6 +33,9 @@ namespace MultiThreadAppTest
         // スレッド
         private Thread thread;
 
+        // 正規表現パターン生成オブジェクト
+        private RegexModel regex;
+
         /// <summary>
         /// 表示用リストプロパティ
         /// </summary>
@@ -77,6 +80,10 @@ namespace MultiThreadAppTest
             // クリップボード監視前処理
             cw = new ClipboradWatcherModel();
             CompositeDisposable.Add(cw);
+
+            regex = new RegexModel(false);
+            CompositeDisposable.Add(regex);
+            //Settings.UseMigemo = true;
             
             // 取得済みデータを復元
             this.Load();
@@ -177,7 +184,10 @@ namespace MultiThreadAppTest
             else
             {
                 // 入力値に応じてフィルタリングする
-                ListSource = new ObservableCollection<string>(ListMain.Where((s) => {return s.Contains(searchText);}));
+                ListSource = new ObservableCollection<string>(ListMain.Where((s) =>
+                {
+                    return regex.GetRegex(searchText).IsMatch(s);
+                }));
             }
         }
         
