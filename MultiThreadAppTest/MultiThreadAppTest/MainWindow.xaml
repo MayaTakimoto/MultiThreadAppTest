@@ -45,6 +45,13 @@
                     </iav:EventTrigger>
                 </iav:Interaction.Triggers>
             </MenuItem>
+            <TextBox x:Name="SearchInput" Height="23" TextWrapping="Wrap" Width="120" >
+                <iav:Interaction.Triggers>
+                    <iav:EventTrigger EventName="TextChanged">
+                        <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="Search" MethodParameter="{Binding ElementName=SearchInput, Path=Text}" />
+                    </iav:EventTrigger>
+                </iav:Interaction.Triggers>
+            </TextBox>
         </Menu>
     </Grid>
 </Window>

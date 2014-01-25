@@ -14,6 +14,7 @@ namespace MultiThreadAppTest
     public class MainViewModel : ViewModel
     {
         private ObservableCollection<string> listSource;
+        private ObservableCollection<string> listMain;
         private ClipboradWatcherModel cw;
         private Thread thread;
 
@@ -27,6 +28,19 @@ namespace MultiThreadAppTest
             {
                 this.listSource = value;
                 RaisePropertyChanged("ListSource");
+            }
+        }
+
+        private ObservableCollection<string> ListMain
+        {
+            get 
+            { 
+                return this.listMain; 
+            }
+            set 
+            {
+                this.listMain = value;
+                ListSource = this.listMain;
             }
         }
 
@@ -56,7 +70,7 @@ namespace MultiThreadAppTest
             }
 
             // 同じテキストデータがリスト内に存在する場合は何もしない
-            var res = ListSource.Where((s) => { return cw.CbText.Equals(s); });
+            var res = ListMain.Where((s) => { return cw.CbText.Equals(s); });
             if (res.Count() > 0)
             {
                 return;
@@ -66,7 +80,7 @@ namespace MultiThreadAppTest
             Application.Current.Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    ListSource.Add(cw.CbText);
+                    ListMain.Add(cw.CbText);
                 })
             );
         }
@@ -113,7 +127,7 @@ namespace MultiThreadAppTest
         /// </summary>
         public void Save()
         {
-            SaveLoadModel.Save<string>(ListSource);
+            SaveLoadModel.Save<string>(ListMain);
         }
 
         /// <summary>
@@ -121,7 +135,22 @@ namespace MultiThreadAppTest
         /// </summary>
         public void Load()
         {
-            ListSource = SaveLoadModel.Load<string>();
+            ListMain = SaveLoadModel.Load<string>();
+        }
+
+        /// <summary>
+        /// インクリメンタルサーチ
+        /// </summary>
+        public void Search(string searchText)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                ListSource = new ObservableCollection<string>(ListMain);
+            }
+            else
+            {
+                ListSource = new ObservableCollection<string>(ListMain.Where((s) => {return s.Contains(searchText);}));
+            }
         }
         
         /// <summary>
