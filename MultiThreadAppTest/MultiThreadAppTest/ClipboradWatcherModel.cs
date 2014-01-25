@@ -1,6 +1,14 @@
-﻿using System.Threading;
-using System.Windows;
+﻿//-----------------------------------------------------------------------
+// <summary>クリップボード監視クラス</summary>
+// <author>MayaTakimoto</author>
+// <date>$Date: 2013-11-01 14:00:00 +9:00 $</date>
+// <copyright file="$Name: ClipboardWatcherModel.cs $" >
+// Copyright(c) 2013 MayaTakimoto All Rights Reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 using Livet;
+using System.Threading;
+using System.Windows;
 
 namespace MultiThreadAppTest
 {
@@ -9,6 +17,7 @@ namespace MultiThreadAppTest
     /// </summary>
     public class ClipboradWatcherModel : ViewModel
     {
+        // テキストデータ
         private string cbText;
 
         public string CbText
@@ -27,7 +36,8 @@ namespace MultiThreadAppTest
             }
         }
 
-        public bool StopFlg { get; set; }   // 監視停止フラグ
+        // 監視停止フラグ
+        public bool StopFlg { get; set; }   
 
         /// <summary>
         /// コンストラクタ

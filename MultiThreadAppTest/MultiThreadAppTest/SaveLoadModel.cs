@@ -1,7 +1,15 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <summary>データ読書クラス</summary>
+// <author>MayaTakimoto</author>
+// <date>$Date: 2013-11-01 14:00:00 +9:00 $</date>
+// <copyright file="$Name: SaveLoadModel.cs $" >
+// Copyright(c) 2013 MayaTakimoto All Rights Reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using ProtoBuf;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using ProtoBuf;
 
 namespace MultiThreadAppTest
 {

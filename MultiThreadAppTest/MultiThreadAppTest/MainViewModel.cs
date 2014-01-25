@@ -1,10 +1,18 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <summary>メインウィンドウViewModel</summary>
+// <author>MayaTakimoto</author>
+// <date>$Date: 2013-11-01 14:00:00 +9:00 $</date>
+// <copyright file="$Name: MainViewModel.cs $" >
+// Copyright(c) 2013 MayaTakimoto All Rights Reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using Livet;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using Livet;
 
 namespace MultiThreadAppTest
 {
@@ -13,11 +21,22 @@ namespace MultiThreadAppTest
     /// </summary>
     public class MainViewModel : ViewModel
     {
+        // 表示用リスト
         private ObservableCollection<string> listSource;
+
+        // データ保持用リスト
         private ObservableCollection<string> listMain;
+
+        // クリップボード監視オブジェクト
         private ClipboradWatcherModel cw;
+
+        // スレッド
         private Thread thread;
 
+        /// <summary>
+        /// 表示用リストプロパティ
+        /// </summary>
+        /// <remarks>画面にはこのリストの内容が反映される</remarks>
         public ObservableCollection<string> ListSource
         {
             get
@@ -31,6 +50,10 @@ namespace MultiThreadAppTest
             }
         }
 
+        /// <summary>
+        /// データ保持用リストプロパティ
+        /// </summary>
+        /// <remarks>取得した値はこちらに保持される</remarks>
         private ObservableCollection<string> ListMain
         {
             get 
@@ -40,6 +63,8 @@ namespace MultiThreadAppTest
             set 
             {
                 this.listMain = value;
+
+                // 画面に反映させる
                 ListSource = this.listMain;
             }
         }
@@ -49,6 +74,7 @@ namespace MultiThreadAppTest
         /// </summary>
         public MainViewModel()
         {
+            // クリップボード監視前処理
             cw = new ClipboradWatcherModel();
             CompositeDisposable.Add(cw);
             
@@ -145,10 +171,12 @@ namespace MultiThreadAppTest
         {
             if (string.IsNullOrEmpty(searchText))
             {
+                // テキストが空白ならデータを復元
                 ListSource = new ObservableCollection<string>(ListMain);
             }
             else
             {
+                // 入力値に応じてフィルタリングする
                 ListSource = new ObservableCollection<string>(ListMain.Where((s) => {return s.Contains(searchText);}));
             }
         }
