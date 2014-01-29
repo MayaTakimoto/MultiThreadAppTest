@@ -13,19 +13,32 @@ namespace MultiThreadAppTest
         // Migemo正規表現クラス
         private Migemo migemo;
 
+        //// インスタンス
+        //private static RegexModel regexModel;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public RegexModel(bool useMigemo)
+        public RegexModel()
         {
             // Migemo使用時はMigemoオブジェクト生成
-            if (useMigemo &&
-                File.Exists("migemo.dll") &&
+            if (File.Exists("migemo.dll") &&
                 File.Exists("dict/migemo-dict"))
             {
                 migemo = new Migemo("dict/migemo-dict");
             }
         }
+
+
+        //public static RegexModel GetInstance()
+        //{
+        //    if (regexModel == null)
+        //    {
+        //        regexModel = new RegexModel();
+        //    }
+
+        //    return regexModel;
+        //}
 
         /// <summary>
         /// 
@@ -34,9 +47,11 @@ namespace MultiThreadAppTest
         /// <returns></returns>
         public Regex GetRegex(string pattern)
         {
-            if (migemo != null)
+            if (migemo != null &&
+                pattern.StartsWith("/") &&
+                !pattern.EndsWith("/"))
             {
-                return migemo.GetRegex(pattern);
+                return migemo.GetRegex(pattern.Substring(1));
             }
             else
             {

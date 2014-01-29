@@ -81,9 +81,7 @@ namespace MultiThreadAppTest
             cw = new ClipboradWatcherModel();
             CompositeDisposable.Add(cw);
 
-            regex = new RegexModel(false);
             CompositeDisposable.Add(regex);
-            //Settings.UseMigemo = true;
             
             // 取得済みデータを復元
             this.Load();
@@ -172,16 +170,35 @@ namespace MultiThreadAppTest
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void InitSearch()
+        {
+            regex = new RegexModel();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void EndSearch()
+        {
+            if (regex != null)
+            {
+                regex.Dispose();
+            }
+        }
+
+        /// <summary>
         /// インクリメンタルサーチ
         /// </summary>
         public void Search(string searchText)
         {
-            if (string.IsNullOrEmpty(searchText))
+            if (string.IsNullOrEmpty(searchText) || "/".Equals(searchText))
             {
                 // テキストが空白ならデータを復元
                 ListSource = new ObservableCollection<string>(ListMain);
             }
-            else
+            else 
             {
                 // 入力値に応じてフィルタリングする
                 ListSource = new ObservableCollection<string>(ListMain.Where((s) =>

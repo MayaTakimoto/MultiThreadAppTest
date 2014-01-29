@@ -45,10 +45,16 @@
                     </iav:EventTrigger>
                 </iav:Interaction.Triggers>
             </MenuItem>
-            <TextBox x:Name="SearchInput" Height="23" TextWrapping="Wrap" Width="120" >
+            <TextBox x:Name="SearchInput" Height="23" TextWrapping="Wrap" Width="120"  >
                 <iav:Interaction.Triggers>
                     <iav:EventTrigger EventName="TextChanged">
                         <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="Search" MethodParameter="{Binding ElementName=SearchInput, Path=Text}" />
+                    </iav:EventTrigger>
+                    <iav:EventTrigger EventName="GotFocus">
+                        <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="InitSearch" />
+                    </iav:EventTrigger>
+                    <iav:EventTrigger EventName="LostFocus">
+                        <lv:LivetCallMethodAction MethodTarget="{DynamicResource MVM}" MethodName="EndSearch" />
                     </iav:EventTrigger>
                 </iav:Interaction.Triggers>
             </TextBox>
